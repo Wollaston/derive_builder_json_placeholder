@@ -36,17 +36,9 @@ pub struct Resource {
     #[builder(setter(into))]
     resource: ResourceType,
     #[builder(default)]
-    format: Option<Key>,
+    post_id: Option<Key>,
     #[builder(default)]
-    offset: Option<Key>,
-    #[builder(default)]
-    limit: Option<Key>,
-    #[builder(default)]
-    from_date_time: Option<Key>,
-    #[builder(default)]
-    to_date_time: Option<Key>,
-    #[builder(default)]
-    sort: Option<Key>,
+    user_id: Option<Key>,
 }
 
 impl Resource {
@@ -68,27 +60,20 @@ impl Endpoint for Resource {
         let mut params = QueryParams::default();
 
         params
-            .push_opt("format", self.format)
-            .push_opt("sort", self.sort)
-            .push_opt("limit", self.limit)
-            .push_opt("offset", self.offset)
-            .push_opt("toDateTime", self.to_date_time)
-            .push_opt("fromDateTime", self.from_date_time);
+            .push_opt("post_id", self.post_id)
+            .push_opt("user_id", self.user_id);
         params
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::api::params::Key;
-
     use super::{Resource, ResourceType};
 
     #[test]
-    fn endpoint() {
+    fn posts_endpoint() {
         let endpoint = Resource::builder()
             .resource(ResourceType::Posts)
-            .format(Key::Format)
             .build()
             .unwrap();
         println!("{:?}", endpoint);

@@ -8,8 +8,8 @@ pub trait ParamValue<'a> {
 impl<'a> ParamValue<'a> for Key {
     fn as_value(&self) -> Cow<'a, str> {
         match self {
-            Self::Sort => "sort".into(),
-            _ => "Ok".into(),
+            Self::PostId => "postId".into(),
+            Self::UserId => "userId".into(),
         }
     }
 }
@@ -17,23 +17,15 @@ impl<'a> ParamValue<'a> for Key {
 /// Keys for the query parameters available on the Congress.gov and GovInfo APIs.
 #[derive(Debug, Clone, Copy)]
 pub enum Key {
-    Format,
-    Offset,
-    Limit,
-    FromDateTime,
-    ToDateTime,
-    Sort,
+    PostId,
+    UserId,
 }
 
 impl Display for Key {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Key::Format => write!(f, "format"),
-            Key::Offset => write!(f, "offset"),
-            Key::Limit => write!(f, "limit"),
-            Key::FromDateTime => write!(f, "fromDateTime"),
-            Key::ToDateTime => write!(f, "toDateTime"),
-            Key::Sort => write!(f, "sort"),
+            Key::PostId => write!(f, "postId"),
+            Key::UserId => write!(f, "userId"),
         }
     }
 }
@@ -41,12 +33,8 @@ impl Display for Key {
 impl From<Key> for &str {
     fn from(key: Key) -> &'static str {
         match key {
-            Key::Format => "format",
-            Key::Offset => "offset",
-            Key::Limit => "limit",
-            Key::FromDateTime => "fromDateTime",
-            Key::ToDateTime => "toDateTime",
-            Key::Sort => "sort",
+            Key::PostId => "postId",
+            Key::UserId => "userId",
         }
     }
 }
