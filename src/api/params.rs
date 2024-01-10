@@ -1,5 +1,7 @@
 use std::{borrow::Cow, fmt::Display};
 
+use url::Url;
+
 /// impl this trait on the type of any return value
 pub trait ParamValue<'a> {
     fn as_value(&self) -> Cow<'a, str>;
@@ -65,5 +67,10 @@ impl<'a> QueryParams<'a> {
             self.params.push((key.into(), value.as_value()));
         }
         self
+    }
+
+    pub fn add_to_url(&self, url: &mut Url) {
+        let mut pairs = url.query_pairs_mut();
+        pairs.extend_pairs(self.params.iter());
     }
 }

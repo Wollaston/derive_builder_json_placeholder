@@ -68,14 +68,20 @@ impl Endpoint for Resource {
 
 #[cfg(test)]
 mod tests {
+    use crate::api::{client::RestClient, endpoint::Endpoint, query::Query, user::User};
+
+    // Display output in cargo test using -- --nocapture
     use super::{Resource, ResourceType};
 
     #[test]
-    fn posts_endpoint() {
+    fn posts_endpoint() -> anyhow::Result<()> {
         let endpoint = Resource::builder()
             .resource(ResourceType::Posts)
+            .user_id(crate::api::params::Key::UserId)
             .build()
             .unwrap();
-        println!("{:?}", endpoint);
+        let url = endpoint.url()?;
+        println!("{:?}", url);
+        Ok(())
     }
 }
